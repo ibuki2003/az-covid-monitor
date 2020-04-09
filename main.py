@@ -41,6 +41,6 @@ for page in URLS:
         with open(URLS[page]+'_old.html', 'w') as f:
             f.write(now_main)
     
-        notify_msg = page + '向けのお知らせページが更新されました! @ ' + datetime.datetime.now().strftime('%Y/%m/%d %H:%M') 
+        notify_msg = '新' + page + '向けのお知らせページが更新されました! @ ' + datetime.datetime.now().strftime('%Y/%m/%d %H:%M')
         print(notify_msg)
         twitter.tweet(notify_msg)
