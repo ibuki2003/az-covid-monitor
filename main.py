@@ -11,12 +11,12 @@ import config
 AUTH_TOKEN = 'Basic ' + base64.b64encode(bytes(config.USERNAME + ':' + config.PASSWORD, 'ascii')).decode('ascii')
 BASE_URL = 'https://www.azabu-jh.ed.jp/schoollife/topics/gakunai/covid-19/'
 URLS = {
-    'M1': 'jh1',
-    'M2': 'jh2',
-    'M3': 'jh3',
-    'H1': 'sh1',
-    'H2': 'sh2',
-    'H3': 'sh3',
+    'M2': 'jh1',
+    'M3': 'jh2',
+    'H1': 'jh3',
+    'H2': 'sh1',
+    'H3': 'sh2',
+    'M1': 'sh3',
 }
 
 for page in URLS:
