@@ -33,7 +33,8 @@ for page in URLS:
         with open(URLS[page]+'_old.html') as f:
             old_main = f.read()
     except:
-        old_main = ""
+        old_main = now_main
+
     if now_main != old_main:
         print(page, 'updated@', datetime.datetime.now())
 
