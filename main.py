@@ -22,12 +22,15 @@ URLS = {
 for page in URLS:
     get_url = BASE_URL + URLS[page]
 
-    req = urllib.request.Request(get_url, None, {
-        'Authorization': AUTH_TOKEN
-    })
-    with urllib.request.urlopen(req) as res:
-        soup = BeautifulSoup(res.read(), "lxml")
-    now_main = str(soup.find("div", class_ = "main"))
+    try:
+        req = urllib.request.Request(get_url, None, {
+            'Authorization': AUTH_TOKEN
+        })
+        with urllib.request.urlopen(req) as res:
+            soup = BeautifulSoup(res.read(), "lxml")
+        now_main = str(soup.find("div", class_ = "main"))
+    except:
+        continue
     
     try:
         with open(URLS[page]+'_old.html') as f:
