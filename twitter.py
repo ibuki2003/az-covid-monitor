@@ -1,5 +1,7 @@
 import config
 import requests_oauthlib
+import datetime
+
 def get_session():
     return requests_oauthlib.OAuth1Session(
         config.ConsumerKey,
@@ -9,6 +11,7 @@ def get_session():
 
 TWEET_URL = 'https://api.twitter.com/1.1/statuses/update.json'
 def tweet(content):
+    content += datetime.datetime.now().strftime('%Y/%m/%d %H:%M')
     data = {
         'status': content
     }
