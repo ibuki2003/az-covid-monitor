@@ -11,7 +11,7 @@ def get_session():
 
 TWEET_URL = 'https://api.twitter.com/1.1/statuses/update.json'
 def tweet(content):
-    content += datetime.datetime.now().strftime('%Y/%m/%d %H:%M')
+    content += " @ " + datetime.datetime.now().strftime('%Y/%m/%d %H:%M')
     data = {
         'status': content
     }
