@@ -19,31 +19,35 @@ URLS = {
     'M1': 'sh3',
 }
 
-for page in URLS:
-    get_url = BASE_URL + URLS[page]
+def main():
+    for page in URLS:
+        get_url = BASE_URL + URLS[page]
 
-    try:
-        req = urllib.request.Request(get_url, None, {
-            'Authorization': AUTH_TOKEN
-        })
-        with urllib.request.urlopen(req) as res:
-            soup = BeautifulSoup(res.read(), "lxml")
-        now_main = str(soup.find("div", class_ = "main"))
-    except:
-        continue
-    
-    try:
-        with open(URLS[page]+'_old.html') as f:
-            old_main = f.read()
-    except:
-        old_main = now_main
+        try:
+            req = urllib.request.Request(get_url, None, {
+                'Authorization': AUTH_TOKEN
+            })
+            with urllib.request.urlopen(req) as res:
+                soup = BeautifulSoup(res.read(), "lxml")
+            now_main = str(soup.find("div", class_ = "main"))
+        except:
+            continue
+        
+        try:
+            with open(URLS[page]+'_old.html') as f:
+                old_main = f.read()
+        except:
+            old_main = now_main
 
-    if now_main != old_main:
-        print(page, 'updated@', datetime.datetime.now())
+        if now_main != old_main:
+            print(page, 'updated@', datetime.datetime.now())
 
-        with open(URLS[page]+'_old.html', 'w') as f:
-            f.write(now_main)
-    
-        notify_msg = '新' + page + '向けのお知らせページが更新されました! @ ' + datetime.datetime.now().strftime('%Y/%m/%d %H:%M')
-        print(notify_msg)
-        twitter.tweet(notify_msg)
+            with open(URLS[page]+'_old.html', 'w') as f:
+                f.write(now_main)
+        
+            notify_msg = '新' + page + '向けのお知らせページが更新されました! @ ' + datetime.datetime.now().strftime('%Y/%m/%d %H:%M')
+            print(notify_msg)
+            twitter.tweet(notify_msg)
+
+if __name__ == "__main__":
+    main()
