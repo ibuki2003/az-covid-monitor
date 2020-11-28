@@ -61,7 +61,7 @@ def get_links(html):
             elm.find('dd', class_="text").find(text=True))
         for elm in soup
             .find('ul', class_ = 'topicsInfo')
-            .findAll('a', href=True)]
+            .find_all('a', href=True)]
 
 class Database:
     def __init__(self):
