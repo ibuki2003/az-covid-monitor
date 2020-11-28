@@ -12,6 +12,7 @@ import sqlite3
 AUTH_TOKEN = 'Basic ' + base64.b64encode(bytes(config.USERNAME + ':' + config.PASSWORD, 'ascii')).decode('ascii')
 BASE_URL = 'https://www.azabu-jh.ed.jp/gakunai/'
 GRADE_NAMES = {
+    'all_students': '全校',
     '2020': 'M1',
     '2019': 'M2',
     '2018': 'M3',
