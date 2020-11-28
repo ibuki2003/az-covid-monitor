@@ -21,8 +21,8 @@ GRADE_NAMES = {
     '2015': 'H3',
 }
 
-NEW_PAGE_TPL = '新{grade}向け: 「{title}」が追加されました'
-UPD_PAGE_TPL = '新{grade}向け: 「{title}」が更新されました'
+NEW_PAGE_TPL = '{grade}向け: 「{title}」が追加されました'
+UPD_PAGE_TPL = '{grade}向け: 「{title}」が更新されました'
 
 def main():
     db = Database()
