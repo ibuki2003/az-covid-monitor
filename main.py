@@ -13,12 +13,12 @@ AUTH_TOKEN = 'Basic ' + base64.b64encode(bytes(config.USERNAME + ':' + config.PA
 BASE_URL = 'https://www.azabu-jh.ed.jp/gakunai/'
 GRADE_NAMES = {
     'all_students': '全校',
-    '2020': 'M1',
-    '2019': 'M2',
-    '2018': 'M3',
-    '2017': 'H1',
-    '2016': 'H2',
-    '2015': 'H3',
+    '2021': '新M1',
+    '2020': '新M2',
+    '2019': '新M3',
+    '2018': '新H1',
+    '2017': '新H2',
+    '2016': '新H3',
 }
 
 NEW_PAGE_TPL = '{grade}向け: 「{title}」が追加されました'
