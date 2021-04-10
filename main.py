@@ -4,6 +4,7 @@ import base64
 import twitter
 import config
 import sqlite3
+import traceback
 
 
 AUTH_TOKEN = 'Basic ' + \
@@ -44,18 +45,26 @@ def main():
             req = urllib.request.Request(link[0], None, {
                 'Authorization': AUTH_TOKEN
             })
-            with urllib.request.urlopen(req) as res:
-                cur_upd = res.headers['last-modified']
-                old_upd = db.get_last_update(link[0])
-                if old_upd is None:
-                    twitter.tweet(NEW_PAGE_TPL.format(
-                        grade=GRADE_NAMES[grade], title=link[1]))
-                    print("new: ", grade, link[1], cur_upd)
-                elif old_upd != cur_upd:
-                    twitter.tweet(UPD_PAGE_TPL.format(
-                        grade=GRADE_NAMES[grade], title=link[1]))
-                    print("upd: ", grade, link[1], old_upd, cur_upd)
-                db.set_last_update(link[0], cur_upd)
+            try:
+                with urllib.request.urlopen(req) as res:
+                    soup = BeautifulSoup(res.read(), 'lxml')
+
+                    cur_body = str(soup.find("div", class_="post"))
+                    old_body = db.get_last_content(link[0])
+                    if old_body is None:
+                        twitter.tweet(NEW_PAGE_TPL.format(
+                            grade=GRADE_NAMES[grade], title=link[1]))
+                        print("new: ", grade, link[1])
+                    elif old_body != cur_body:
+                        twitter.tweet(UPD_PAGE_TPL.format(
+                            grade=GRADE_NAMES[grade], title=link[1]))
+                        print("upd: ", grade, link[1])
+                    else:
+                        continue
+                    db.set_last_content(link[0], cur_body)
+            except Exception:
+                traceback.print_exc()
+                continue
 
 
 def get_links(html):
@@ -74,28 +83,29 @@ class Database:
         self.conn = sqlite3.connect('db.sqlite')
         self.c = self.conn.cursor()
         try:
-            res = self.c.execute('select * from tbl')
-        except:
-            self.c.execute('create table tbl (url integer, updated text)')
+            self.c.execute('select * from tbl')
+        except Exception:
+            self.c.execute(
+                'create table tbl (url text primary key, content text)')
             self.conn.commit()
 
     def __del__(self):
         self.c.close()
         self.conn.close()
 
-    def get_last_update(self, url):
+    def get_last_content(self, url):
         res = self.c.execute(
-            'select updated from tbl where url=?', (url,)).fetchone()
+            'select content from tbl where url=?', (url,)).fetchone()
         if res is None:
             self.c.execute(
-                'insert into tbl (url, updated) values (?, ?)', (url, ''))
+                'insert into tbl (url, content) values (?, ?)', (url, ''))
             self.conn.commit()
             return None
         return res[0]
 
-    def set_last_update(self, url, updated):
-        self.get_last_update(url)  # create line if not exist
-        self.c.execute('update tbl set updated=? where url=?', (updated, url,))
+    def set_last_content(self, url, content):
+        self.get_last_content(url)  # create line if not exist
+        self.c.execute('update tbl set content=? where url=?', (content, url,))
         self.conn.commit()
 
 
