@@ -50,9 +50,11 @@ def main():
                 if old_upd is None:
                     twitter.tweet(NEW_PAGE_TPL.format(
                         grade=GRADE_NAMES[grade], title=link[1]))
+                    print("new: ", grade, link[1], cur_upd)
                 elif old_upd != cur_upd:
                     twitter.tweet(UPD_PAGE_TPL.format(
                         grade=GRADE_NAMES[grade], title=link[1]))
+                    print("upd: ", grade, link[1], old_upd, cur_upd)
                 db.set_last_update(link[0], cur_upd)
 
 
