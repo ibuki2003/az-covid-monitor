@@ -34,7 +34,7 @@ def main():
             req = urllib.request.Request(get_url, None, {
                 'Authorization': AUTH_TOKEN
             })
-            with urllib.request.urlopen(req) as res:
+            with urllib.request.urlopen(req, timeout=5) as res:
                 links = get_links(res.read())
 
         except Exception as e:
@@ -46,7 +46,7 @@ def main():
                 'Authorization': AUTH_TOKEN
             })
             try:
-                with urllib.request.urlopen(req) as res:
+                with urllib.request.urlopen(req, timeout=5) as res:
                     soup = BeautifulSoup(res.read(), 'lxml')
 
                     cur_body = str(soup.find("div", class_="post"))
