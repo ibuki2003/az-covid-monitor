@@ -22,8 +22,8 @@ GRADE_NAMES = {
     '2016': '卒業生(旧H3)',
 }
 
-NEW_PAGE_TPL = '{grade}向け: 「{title}」が追加されました'
-UPD_PAGE_TPL = '{grade}向け: 「{title}」が更新されました'
+NEW_PAGE_TPL = '{grade}向けページが追加されました'
+UPD_PAGE_TPL = '{grade}向けページが更新されました'
 
 
 def main():
